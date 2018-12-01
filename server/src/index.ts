@@ -7,7 +7,7 @@ import { PORT } from '../config';
 const app = new Koa();
 const router = new Router();
 
-router.get('/*', async ctx => {
+router.get('*', async ctx => {
   ctx.body = 'Hello World!';
 });
 
