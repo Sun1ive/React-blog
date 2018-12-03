@@ -29,6 +29,7 @@
   ],
   "devDependencies": {
     "@types/prop-types": "^15.5.6",
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.6.2",
+    "tslint": "^5.11.0"
   }
 }
