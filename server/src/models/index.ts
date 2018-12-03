@@ -1,7 +1,6 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import * as Sequelize from 'sequelize';
-
-const fs = require('fs');
-const path = require('path');
 
 import sequelize from '../services/sequelize';
 
