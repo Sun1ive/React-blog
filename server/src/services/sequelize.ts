@@ -1,5 +1,3 @@
-import * as Sequelize from 'sequelize';
-
 import {
   DB_NAME,
   DB_USERNAME,
@@ -8,6 +6,8 @@ import {
   DB_SSL,
   DB_PORT
 } from '../../config';
+
+import * as Sequelize from 'sequelize';
 
 const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   host: DB_HOST,

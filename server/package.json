@@ -20,7 +20,9 @@
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
-    "sequelize": "^4.41.2"
+    "pg": "^7.7.1",
+    "sequelize": "^4.41.2",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@types/koa": "^2.0.47",
@@ -30,7 +32,9 @@
     "@types/koa-router": "^7.0.35",
     "@types/koa-static": "^4.0.0",
     "@types/node": "^10.12.10",
+    "@types/pg": "^7.4.11",
     "@types/sequelize": "^4.27.32",
+    "@types/uuid": "^3.4.4",
     "nodemon": "^1.18.7",
     "rimraf": "^2.6.2",
     "sequelize-cli": "^5.4.0",

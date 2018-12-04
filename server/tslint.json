@@ -10,7 +10,9 @@
     "no-string-literal": false,
     "triple-equals": [false],
     "arrow-parens": false,
-    "trailing-comma": false
+    "trailing-comma": false,
+    "ordered-imports": false,
+    "no-shadowed-variable": false
   },
   "rulesDirectory": []
 }
