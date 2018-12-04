@@ -7,6 +7,8 @@ import * as compress from 'koa-compress';
 import * as koaBodyParser from 'koa-bodyparser';
 import * as koaStatic from 'koa-static';
 import * as logger from 'koa-logger';
+// @ts-ignore
+import * as koaCors from '@koa/cors';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 
@@ -19,6 +21,7 @@ async function createApp() {
   const app = new Koa();
   const router = new Router();
 
+  app.use(koaCors());
   app.use(compress());
   app.use(koaBodyParser());
   app.use(koaStatic('../static'));
