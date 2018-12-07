@@ -11,7 +11,7 @@ fs.readdirSync(__dirname) // eslint-disable-line no-sync
     db[model.name] = model;
   });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName: any) => {
   if ('associate' in db[modelName]) {
     db[modelName].associate(db);
   }
