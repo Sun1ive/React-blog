@@ -27,14 +27,17 @@ export const generateRefreshToken = ({ id }: ICredentials) =>
     }
   );
 
+type decoded = {
+  iat: number;
+  exp: number;
+};
+
 export const checkExpToken = (token: string): boolean | Error => {
   try {
-    const decoded = verify(token, JWT_SECRET);
+    const decoded: decoded = verify(token, JWT_SECRET) as decoded;
     const currentTime = Date.now() / 1000;
 
-    console.log(checkExpToken);
-    // return decoded > currentTime;
-    return true;
+    return decoded.exp > currentTime;
   } catch (error) {
     throw error;
   }

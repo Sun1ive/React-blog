@@ -31,15 +31,14 @@ async function createApp() {
     await models.sequelize.authenticate();
 
     await models.sequelize.sync();
-    // await models.sequelize.sync({ force: true });
   } catch (error) {
     console.log('error during connection to DB', error);
     throw new Error(error);
   }
-  router.use('/api/users', authRoutes.routes());
-
-  app.use(router.routes());
   app.use(errorMiddleware);
+
+  router.use('/api/users', authRoutes.routes());
+  app.use(router.routes());
 
   app.listen(PORT, () => {
     console.log('Server running on port 3000');

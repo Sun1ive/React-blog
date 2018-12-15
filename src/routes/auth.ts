@@ -4,6 +4,7 @@ import * as Router from 'koa-router';
 import { ICredentials } from '../@Types/credentials';
 import { createUser, getUserByEmail } from '../controllers/auth';
 import { comparePasswords } from '../utils/password';
+import { generateAccessToken, checkExpToken } from '../utils/token';
 
 const router = new Router();
 
