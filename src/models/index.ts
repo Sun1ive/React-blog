@@ -1,22 +1,35 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import sequelize from '../services/sequelize';
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_SSL, DB_USERNAME } from '../../config';
 
-const db = {} as any;
+import * as Sequelize from 'sequelize';
+import { UserFactory } from './user';
+import { DbInterface } from '../@Types/sequelize';
 
-fs.readdirSync(__dirname) // eslint-disable-line no-sync
-  .filter((file: string) => file.indexOf('.') !== 0 && file !== 'index.ts')
-  .forEach((file: string) => {
-    const model = sequelize.import(path.join(__dirname, file));
-    db[model.name] = model;
+export const createModels = (): DbInterface => {
+  const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: DB_SSL
+    },
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    },
+    operatorsAliases: false
   });
 
-Object.keys(db).forEach((modelName: any) => {
-  if ('associate' in db[modelName]) {
-    db[modelName].associate(db);
-  }
-});
+  const db: DbInterface = {
+    sequelize,
+    Sequelize,
+    User: UserFactory(sequelize, Sequelize)
+  };
 
-db.sequelize = sequelize;
+  return db;
+};
+
+const db = createModels();
 
 export default db;

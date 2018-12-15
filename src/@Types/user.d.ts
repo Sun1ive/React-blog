@@ -1,15 +1,13 @@
-import { Model } from 'sequelize';
+import Sequelize from 'sequelize';
 
-export interface UserAddModel extends UserModel {
+export interface UserAttributes {
   id: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  accessToken?: string;
+  refreshToken?: string;
   email: string;
   password: string;
-  accessToken: string;
-  refreshToken: string;
 }
 
-export interface UserModel extends Model<UserModel, UserAddModel> {
-  createdAt?: string;
-  updatedAt?: string;
-  get: (...args: any[]) => any;
-}
+export interface IUserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {}

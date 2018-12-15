@@ -1,8 +1,12 @@
-import { Sequelize, DataTypes } from 'sequelize';
+import * as Sequelize from 'sequelize';
 import * as T from '../@Types/user';
+import { SequelizeAttributes } from '../@Types/sequelize';
 
-export default (sequelize: Sequelize, DataTypes: DataTypes) => {
-  const User = sequelize.define<T.UserModel, T.UserAddModel>('User', {
+export const UserFactory = (
+  sequelize: Sequelize.Sequelize,
+  DataTypes: Sequelize.DataTypes
+): Sequelize.Model<T.IUserInstance, T.UserAttributes> => {
+  const attributes: SequelizeAttributes<T.UserAttributes> = {
     id: {
       type: DataTypes.UUID,
       unique: true,
@@ -25,7 +29,9 @@ export default (sequelize: Sequelize, DataTypes: DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     }
-  });
+  };
+
+  const User = sequelize.define<T.IUserInstance, T.UserAttributes>('User', attributes);
 
   return User;
 };

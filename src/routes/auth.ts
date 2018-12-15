@@ -44,7 +44,6 @@ router.post('/signin', async (ctx: Context) => {
 
   const updatedUser = await getUserByEmail(email);
 
-  // const data = omit(updatedUser.get({ plain: true }), 'password');
   const data = omit(updatedUser, 'password');
 
   ctx.status = 200;

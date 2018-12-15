@@ -13,7 +13,7 @@ import * as koaCors from '@koa/cors';
 import errorMiddleware from './middlewares/errorMiddleware';
 
 import authRoutes from './routes/auth';
-import models from './models';
+import db from './models';
 
 import { PORT } from '../config';
 
@@ -28,9 +28,8 @@ async function createApp() {
   app.use(logger());
 
   try {
-    await models.sequelize.authenticate();
-
-    await models.sequelize.sync();
+    await db.sequelize.authenticate();
+    await db.sequelize.sync();
   } catch (error) {
     console.log('error during connection to DB', error);
     throw new Error(error);
