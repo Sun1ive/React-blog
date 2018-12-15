@@ -27,10 +27,6 @@ async function createApp() {
   app.use(koaStatic('../static'));
   app.use(logger());
 
-  router.get('*', async ctx => {
-    ctx.body = 'Hello World!';
-  });
-
   try {
     await models.sequelize.authenticate();
 
@@ -40,9 +36,9 @@ async function createApp() {
     console.log('error during connection to DB', error);
     throw new Error(error);
   }
+  router.use('/api/users', authRoutes.routes());
 
   app.use(router.routes());
-  app.use(authRoutes.routes());
   app.use(errorMiddleware);
 
   app.listen(PORT, () => {

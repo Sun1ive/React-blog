@@ -12,7 +12,7 @@ export const createUser = ({ email, password }: I.ICredentials): U.UserModel => 
   });
 };
 
-export const getUser = ({ email }: I.ICredentials): U.UserAddModel => {
+export const getUserByEmail = (email: string): U.UserAddModel => {
   return models.User.findOne({
     where: {
       email
