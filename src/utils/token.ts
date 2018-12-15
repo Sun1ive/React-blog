@@ -1,4 +1,4 @@
-import { sign, decode, verify } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import { JWT_SECRET } from '../../config';
 
 interface ICredentials {
@@ -23,7 +23,7 @@ export const generateRefreshToken = ({ id }: ICredentials) =>
     },
     JWT_SECRET,
     {
-      expiresIn: '6h'
+      expiresIn: '12h'
     }
   );
 
