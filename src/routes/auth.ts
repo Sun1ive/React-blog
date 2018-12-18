@@ -6,6 +6,7 @@ import { createUser, getUserByEmail, updateUser } from '../controllers/auth';
 import { comparePasswords } from '../utils/password';
 import { generateAccessToken, generateRefreshToken } from '../utils/token';
 import { omit } from 'lodash';
+import { withAuth } from '../middlewares/auth';
 
 const router = new Router();
 
@@ -20,7 +21,7 @@ router.post('/signup', async (ctx: Context) => {
   };
 });
 
-router.post('/signin', async (ctx: Context) => {
+router.post('/signin', withAuth, async (ctx: Context) => {
   const { email, password } = ctx.request.body;
 
   const user = await getUserByEmail(email);
@@ -34,7 +35,7 @@ router.post('/signin', async (ctx: Context) => {
   }
 
   const accessToken = generateAccessToken({ id: user.id });
-  const refreshToken = generateRefreshToken({ id: user.id });
+  const refreshToken = generateRefreshToken();
 
   await updateUser({
     id: user.id,

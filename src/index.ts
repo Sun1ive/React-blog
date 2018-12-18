@@ -8,13 +8,14 @@ import koaBodyParser from 'koa-bodyparser';
 import koaStatic from 'koa-static';
 import logger from 'koa-logger';
 import koaCors from '@koa/cors';
+import koaJWT from 'koa-jwt';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 
 import authRoutes from './routes/auth';
 import db from './models';
 
-import { PORT } from '../config';
+import { PORT, JWT_SECRET } from '../config';
 
 async function createApp() {
   const app = new Koa();
@@ -25,6 +26,17 @@ async function createApp() {
   app.use(koaBodyParser());
   app.use(koaStatic('../static'));
   app.use(logger());
+  app.use(
+    koaJWT({
+      secret: JWT_SECRET,
+      getToken: ({ header }) => {
+        if (header.authorization && header.authorization.split(' ')[0] === 'Bearer') {
+          return header.authorization.split(' ')[1];
+        }
+        return null;
+      }
+    })
+  );
 
   try {
     await db.sequelize.authenticate();

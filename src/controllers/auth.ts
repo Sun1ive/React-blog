@@ -30,6 +30,16 @@ export const getUserByEmail = async (email: string): Promise<T.UserAttributes> =
   });
 };
 
+export const getUserById = async (id: string): Promise<T.UserAttributes> => {
+  const user = (await models.User.findOne({
+    where: {
+      id
+    }
+  })) as T.IUserInstance;
+
+  return user;
+};
+
 export const updateUser = async ({ id, ...rest }: any): Promise<void> => {
   await models.User.update(
     {

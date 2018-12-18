@@ -17,7 +17,7 @@ export const generateAccessToken = ({ id }: ICredentials) =>
     }
   );
 
-export const generateRefreshToken = ({ id }: ICredentials) => nanoid();
+export const generateRefreshToken = () => nanoid();
 
 type decoded = {
   iat: number;
