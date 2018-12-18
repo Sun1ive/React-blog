@@ -1,14 +1,13 @@
 /* tslint:disable-next-line */
 require('dotenv').config();
 
-import * as Koa from 'koa';
-import * as Router from 'koa-router';
-import * as compress from 'koa-compress';
-import * as koaBodyParser from 'koa-bodyparser';
-import * as koaStatic from 'koa-static';
-import * as logger from 'koa-logger';
-// @ts-ignore
-import * as koaCors from '@koa/cors';
+import Koa from 'koa';
+import Router from 'koa-router';
+import compress from 'koa-compress';
+import koaBodyParser from 'koa-bodyparser';
+import koaStatic from 'koa-static';
+import logger from 'koa-logger';
+import koaCors from '@koa/cors';
 
 import errorMiddleware from './middlewares/errorMiddleware';
 

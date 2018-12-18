@@ -1,6 +1,6 @@
 import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_SSL, DB_USERNAME } from '../../config';
 
-import * as Sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 import { UserFactory } from './user';
 import { DbInterface } from '../@Types/sequelize';
 

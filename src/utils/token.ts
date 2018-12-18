@@ -1,4 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
+import nanoid from 'nanoid';
 import { JWT_SECRET } from '../../config';
 
 interface ICredentials {
@@ -16,16 +17,7 @@ export const generateAccessToken = ({ id }: ICredentials) =>
     }
   );
 
-export const generateRefreshToken = ({ id }: ICredentials) =>
-  sign(
-    {
-      data: id
-    },
-    JWT_SECRET,
-    {
-      expiresIn: '12h'
-    }
-  );
+export const generateRefreshToken = ({ id }: ICredentials) => nanoid();
 
 type decoded = {
   iat: number;

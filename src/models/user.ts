@@ -1,4 +1,4 @@
-import * as Sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 import * as T from '../@Types/user';
 import { SequelizeAttributes } from '../@Types/sequelize';
 

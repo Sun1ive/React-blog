@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 
 import { ICredentials } from '../@Types/credentials';
 import { createUser, getUserByEmail, updateUser } from '../controllers/auth';
