@@ -19,15 +19,18 @@ export const UserFactory = (
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     accessToken: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      unique: true
     },
     refreshToken: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      unique: true
     }
   };
 
