@@ -16,6 +16,7 @@ import authRoutes from './routes/auth';
 import db from './models';
 
 import { PORT, JWT_SECRET } from '../config';
+import { withAuth } from './middlewares/auth';
 
 async function createApp() {
   const app = new Koa();
@@ -33,8 +34,10 @@ async function createApp() {
         if (header.authorization && header.authorization.split(' ')[0] === 'Bearer') {
           return header.authorization.split(' ')[1];
         }
+
         return null;
-      }
+      },
+      passthrough: true
     })
   );
 
