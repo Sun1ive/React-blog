@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' ./src/index.ts",
     "build": "tsc",
+    "test": "cross-env NODE_ENV=test jest --config jest.config.json",
     "start": "node dist/src/index"
   },
   "keywords": [],
