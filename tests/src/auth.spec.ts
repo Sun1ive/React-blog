@@ -1,12 +1,13 @@
-import { agent } from 'supertest';
+import { agent, SuperTest } from 'supertest';
 import { createApp } from '../../src';
 
-describe('Auth test suit', () => {
-  let app: any;
+describe('Auth test suit', async () => {
   let newUser: {
     email: string;
     password: string;
-  } | null;
+  };
+
+  let app: SuperTest<any>;
 
   beforeAll(async () => {
     const server = await createApp();
