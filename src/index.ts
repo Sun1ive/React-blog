@@ -40,21 +40,19 @@ export const createApp = async () => {
     })
   );
 
-  if (process.env.NODE_ENV !== 'test') {
-    try {
-      await db.sequelize.authenticate();
-      await db.sequelize.sync();
-    } catch (error) {
-      console.log('error during connection to DB', error);
-      throw new Error(error);
-    }
+  try {
+    await db.sequelize.authenticate();
+    await db.sequelize.sync();
+  } catch (error) {
+    console.log('error during connection to DB', error);
+    throw new Error(error);
   }
 
   app.use(errorMiddleware);
 
   router.use('/api/users', authRoutes.routes());
   router.get('/api', async (ctx: Context) => {
-    ctx.status = 20;
+    ctx.status = 200;
     ctx.body = {
       status: 'OK'
     };
