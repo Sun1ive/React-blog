@@ -1,7 +1,7 @@
 /* tslint:disable-next-line */
 require('dotenv').config();
 
-import Koa from 'koa';
+import Koa, { Context } from 'koa';
 import Router from 'koa-router';
 import compress from 'koa-compress';
 import koaBodyParser from 'koa-bodyparser';
@@ -16,9 +16,8 @@ import authRoutes from './routes/auth';
 import db from './models';
 
 import { PORT, JWT_SECRET } from '../config';
-import { withAuth } from './middlewares/auth';
 
-async function createApp() {
+export const createApp = async () => {
   const app = new Koa();
   const router = new Router();
 
@@ -41,25 +40,34 @@ async function createApp() {
     })
   );
 
-  try {
-    await db.sequelize.authenticate();
-    await db.sequelize.sync();
-  } catch (error) {
-    console.log('error during connection to DB', error);
-    throw new Error(error);
+  if (process.env.NODE_ENV !== 'test') {
+    try {
+      await db.sequelize.authenticate();
+      await db.sequelize.sync();
+    } catch (error) {
+      console.log('error during connection to DB', error);
+      throw new Error(error);
+    }
   }
+
   app.use(errorMiddleware);
 
   router.use('/api/users', authRoutes.routes());
+  router.get('/api', async (ctx: Context) => {
+    ctx.status = 20;
+    ctx.body = {
+      status: 'OK'
+    };
+  });
   app.use(router.routes());
 
-  app.listen(PORT, () => {
-    console.log('Server running on port 3000');
-  });
-
   return app;
+};
+
+if (!module.parent) {
+  createApp().then(app => {
+    app.listen(PORT, () => {
+      console.log('Server running on port 3000');
+    });
+  });
 }
-
-createApp();
-
-export default createApp;
