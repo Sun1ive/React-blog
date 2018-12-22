@@ -4,9 +4,9 @@ import Router from 'koa-router';
 import { ICredentials } from '../@Types/credentials';
 import { createUser, getUserByEmail, updateUser, findByRefreshToken } from '../controllers/auth';
 import { comparePasswords } from '../utils/password';
-import { generateAccessToken, generateRefreshToken } from '../utils/token';
 import { omit } from 'lodash';
 import { withAuth } from '../middlewares/auth';
+import { generateTokensPair } from '../utils/tokensPair';
 
 const router = new Router();
 
@@ -32,11 +32,10 @@ router.post('/signin', async (ctx: Context) => {
   }
 
   if (!comparePasswords(password, user.password)) {
-    ctx.throw(401, 'Passwords does not match');
+    ctx.throw(403, 'Passwords does not match');
   }
 
-  const accessToken = generateAccessToken({ id: user.id });
-  const refreshToken = generateRefreshToken();
+  const { accessToken, refreshToken } = generateTokensPair({ id: user.id });
 
   await updateUser({
     id: user.id,
@@ -60,12 +59,25 @@ router.post('/refresh', withAuth, async ctx => {
   const user = await findByRefreshToken({ refreshToken });
 
   if (!user) {
-    ctx.throw(401, 'Not found');
+    ctx.throw(404, 'Not found');
     return;
   }
 
-  const accessToken = generateAccessToken({ id: user.id });
-  const newRefreshToken = generateRefreshToken();
+  const { accessToken, refreshToken: newRefreshToken } = generateTokensPair({ id: user.id });
+
+  await updateUser({
+    id: user.id,
+    accessToken,
+    refreshToken: newRefreshToken
+  });
+
+  const updatedUser = await getUserByEmail(user.email);
+  const data = omit(updatedUser, 'password');
+
+  ctx.status = 200;
+  ctx.body = {
+    data
+  };
 });
 
 export default router;

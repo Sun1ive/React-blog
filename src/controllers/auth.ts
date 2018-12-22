@@ -63,6 +63,7 @@ export const findByRefreshToken = async ({
   refreshToken
 }: T.refreshToken): Promise<T.UserAttributes | null> => {
   const user = await models.User.findOne({
+    attributes: ['id'],
     where: {
       refreshToken
     }
