@@ -17,25 +17,31 @@ export const createUser = async ({
   });
 };
 
-export const getUserByEmail = async (email: string): Promise<T.UserAttributes> => {
-  const user = (await models.User.findOne({
+export const getUserByEmail = async (email: string): Promise<T.UserAttributes | undefined> => {
+  const user = await models.User.findOne({
     attributes: ['id', 'password', 'email', 'refreshToken', 'accessToken'],
     where: {
       email
     }
-  })) as T.IUserInstance;
-
-  return user.get({
-    plain: true
   });
+
+  let plainUser;
+
+  if (user) {
+    plainUser = user.get({
+      plain: true
+    });
+  }
+
+  return plainUser;
 };
 
-export const getUserById = async (id: string): Promise<T.UserAttributes> => {
-  const user = (await models.User.findOne({
+export const getUserById = async (id: string): Promise<T.UserAttributes | null> => {
+  const user = await models.User.findOne({
     where: {
       id
     }
-  })) as T.IUserInstance;
+  });
 
   return user;
 };
@@ -51,4 +57,16 @@ export const updateUser = async ({ id, ...rest }: any): Promise<void> => {
       }
     }
   );
+};
+
+export const findRefreshToken = async ({
+  refreshToken
+}: T.refreshToken): Promise<T.UserAttributes | null> => {
+  const user = await models.User.findOne({
+    where: {
+      refreshToken
+    }
+  });
+
+  return user;
 };

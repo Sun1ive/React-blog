@@ -8,6 +8,7 @@ describe('Auth test suit', async () => {
   };
 
   let app: SuperTest<any>;
+  const refreshToken = 'UtroWi_Kd2JWeRl9rPopU';
 
   beforeAll(async () => {
     const server = await createApp();
@@ -40,7 +41,11 @@ describe('Auth test suit', async () => {
     expect(typeof res.body.data.refreshToken).toBe('string');
   });
 
-  // test('Should ..', async () => {});
+  test('Should successfully refresh token', async () => {
+    const res = await app.post('/api/users/refresh').send({
+      refreshToken
+    });
+  });
   // test('Should ..', async () => {});
   // test('Should ..', async () => {});
   // test('Should ..', async () => {});

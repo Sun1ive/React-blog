@@ -11,3 +11,7 @@ export interface UserAttributes {
 }
 
 export interface IUserInstance extends Sequelize.Instance<UserAttributes>, UserAttributes {}
+
+export interface refreshToken {
+  refreshToken: string;
+}
