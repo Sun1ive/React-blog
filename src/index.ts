@@ -26,6 +26,16 @@ export const createApp = async () => {
   app.use(koaBodyParser());
   app.use(koaStatic('../static'));
   app.use(logger());
+
+  router.get('/api', async (ctx: Context) => {
+    ctx.status = 200;
+    ctx.body = {
+      status: 'OK'
+    };
+  });
+  app.use(router.routes());
+  router.use('/api/users', authRoutes.routes());
+
   app.use(
     koaJWT({
       secret: JWT_SECRET,
@@ -35,8 +45,7 @@ export const createApp = async () => {
         }
 
         return null;
-      },
-      passthrough: true
+      }
     })
   );
 
@@ -49,15 +58,6 @@ export const createApp = async () => {
   }
 
   app.use(errorMiddleware);
-
-  router.use('/api/users', authRoutes.routes());
-  router.get('/api', async (ctx: Context) => {
-    ctx.status = 200;
-    ctx.body = {
-      status: 'OK'
-    };
-  });
-  app.use(router.routes());
 
   return app;
 };
