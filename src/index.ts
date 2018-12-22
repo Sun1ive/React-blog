@@ -36,7 +36,7 @@ export const createApp = async () => {
   });
   app.use(router.routes());
   app.use(router.allowedMethods());
-  router.use('/api/users', authRoutes.routes());
+  router.use('/api/auth', authRoutes.routes());
 
   app.use(
     koaJwtMiddleware({
@@ -60,7 +60,7 @@ export const createApp = async () => {
 if (!module.parent) {
   createApp().then(app => {
     app.listen(PORT, () => {
-      console.log('Server running on port 3000');
+      console.log('Server running on port ' + PORT);
     });
   });
 }

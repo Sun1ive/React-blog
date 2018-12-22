@@ -8,7 +8,6 @@ describe('Auth test suit', async () => {
   };
 
   let app: SuperTest<any>;
-  const refreshToken = 'UtroWi_Kd2JWeRl9rPopU';
 
   beforeAll(async () => {
     const server = await createApp();
@@ -27,25 +26,20 @@ describe('Auth test suit', async () => {
       password: 'qwerty12345'
     };
 
-    const res = await app.post('/api/users/signup').send(newUser);
+    const res = await app.post('/api/auth/signup').send(newUser);
 
     expect(res.status).toBe(200);
     expect(res.body.data).not.toBe(undefined);
   });
 
   test('Should successfully login', async () => {
-    const res = await app.post('/api/users/signin').send(newUser);
+    const res = await app.post('/api/auth/signin').send(newUser);
 
     expect(res.status).toBe(200);
     expect(typeof res.body.data.accessToken).toBe('string');
     expect(typeof res.body.data.refreshToken).toBe('string');
   });
 
-  test('Should successfully refresh token', async () => {
-    const res = await app.post('/api/users/refresh').send({
-      refreshToken
-    });
-  });
   // test('Should ..', async () => {});
   // test('Should ..', async () => {});
   // test('Should ..', async () => {});
