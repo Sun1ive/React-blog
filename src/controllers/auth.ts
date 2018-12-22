@@ -59,7 +59,7 @@ export const updateUser = async ({ id, ...rest }: any): Promise<void> => {
   );
 };
 
-export const findRefreshToken = async ({
+export const findByRefreshToken = async ({
   refreshToken
 }: T.refreshToken): Promise<T.UserAttributes | null> => {
   const user = await models.User.findOne({

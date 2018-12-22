@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import Router from 'koa-router';
 
 import { ICredentials } from '../@Types/credentials';
-import { createUser, getUserByEmail, updateUser } from '../controllers/auth';
+import { createUser, getUserByEmail, updateUser, findByRefreshToken } from '../controllers/auth';
 import { comparePasswords } from '../utils/password';
 import { generateAccessToken, generateRefreshToken } from '../utils/token';
 import { omit } from 'lodash';
@@ -21,13 +21,14 @@ router.post('/signup', async (ctx: Context) => {
   };
 });
 
-router.post('/signin', withAuth, async (ctx: Context) => {
+router.post('/signin', async (ctx: Context) => {
   const { email, password } = ctx.request.body;
 
   const user = await getUserByEmail(email);
 
   if (!user) {
     ctx.throw(404, 'User with this email was not found');
+    return;
   }
 
   if (!comparePasswords(password, user.password)) {
@@ -51,6 +52,20 @@ router.post('/signin', withAuth, async (ctx: Context) => {
   ctx.body = {
     data
   };
+});
+
+router.post('/refresh', withAuth, async ctx => {
+  const { refreshToken } = ctx.request.body;
+
+  const user = await findByRefreshToken({ refreshToken });
+
+  if (!user) {
+    ctx.throw(401, 'Not found');
+    return;
+  }
+
+  const accessToken = generateAccessToken({ id: user.id });
+  const newRefreshToken = generateRefreshToken();
 });
 
 export default router;
