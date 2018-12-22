@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run build",
     "dev": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' ./src/index.ts",
-    "build": "tsc",
-    "test": "cross-env NODE_ENV=test jest --config jest.config.json --forceExit --runInBand",
+    "build": "rimraf dist && tsc",
+    "test": "cross-env NODE_ENV=test jest --config jest.config.json --forceExit --runInBand --cache",
     "start": "node dist/src/index"
   },
   "keywords": [],
@@ -27,7 +28,9 @@
     "koa-static": "^5.0.0",
     "lodash": "^4.17.11",
     "nanoid": "^2.0.0",
+    "rimraf": "^2.6.2",
     "pg": "^7.7.1",
+    "typescript": "^3.2.2",
     "sequelize": "^4.42.0",
     "uuid": "^3.3.2"
   },
@@ -52,12 +55,10 @@
     "@types/uuid": "^3.4.4",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
-    "rimraf": "^2.6.2",
     "sequelize-cli": "^5.4.0",
     "supertest": "^3.3.0",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
-    "tslint": "^5.12.0",
-    "typescript": "^3.2.2"
+    "tslint": "^5.12.0"
   }
 }
